@@ -1,7 +1,7 @@
 package in.webformat.ticketsystem.data.models;
 
+import in.webformat.ticketsystem.data.archetypes.Dto;
 import in.webformat.ticketsystem.data.archetypes.Model;
-import in.webformat.ticketsystem.data.dto.ItCompanyDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,30 +11,29 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Builder
 @Entity
-@Table(name = "it_company")
-public class ItCompany implements Model {
+@Table(name = "badge")
+public class Badge implements Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @OneToOne
+    @JoinColumn(name = "id_employee", referencedColumnName = "id")
+    private Employee employee;
 
     @Builder.Default
-    @OneToMany(mappedBy = "itCompany")
-    private List<Employee> employeeList = new ArrayList<>();
+    @OneToMany(mappedBy = "badge")
+    private List<Records> records = new ArrayList<>();
 
     @Override
-    public ItCompanyDto toDto() {
+    public Dto toDto() {
         return null;
     }
-
-
 }
